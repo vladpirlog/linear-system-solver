@@ -1,0 +1,56 @@
+import unittest
+from program import program
+
+
+class Test(unittest.TestCase):
+    def test01_program(self):
+        self.assertEqual(program('input/test01.in'), [(0.1333, -0.3667, -1.4222, 1)])
+
+    def test02_program(self):
+        self.assertEqual(program('input/test02.in'),
+                         [(-0.3333, 1, 0, 0), (0.3333, 0, 1, 0), (-0.6667, 0, 0, 1)])
+
+    def test03_program(self):
+        self.assertEqual(program('input/test03.in'), [(3, -2, 1)])
+
+    def test04_program(self):
+        self.assertEqual(program('input/test04.in'), [(0.8, -0.44, 0.76, -1.6, 1)])
+
+    def test05_program(self):
+        self.assertEqual(program('input/test05.in'), [(0, 1, 1, 0), (-1.3333, 0.3333, 0, 1)])
+
+    def test06_program(self):
+        self.assertEqual(program('input/test06.in'), [(1, -2, 1)])
+
+    def test07_program(self):
+        self.assertEqual(program('input/test07.in'), [(0, 0, 0)])
+
+    def test08_program(self):
+        self.assertEqual(program('input/test08.in'), [('x[1]', 'x[2]', 'x[3]')])
+
+    def test09_program(self):
+        self.assertEqual(program('input/test09.in'), [(1, -0.5, 0, 0), (0, 1.75, -2.5, 1)])
+
+    def test10_program(self):
+        self.assertEqual(program('input/test10.in'), [(0, 0, 0, 0)])
+
+    def test11_program(self):
+        self.assertEqual(program('input/test11.in'), None)
+
+    def test12_program(self):
+        self.assertEqual(program('input/test12.in'), None)
+
+    def test13_program(self):
+        self.assertEqual(program('input/test13.in'), [(0, 1, -2, 1)])
+
+    def test14_program(self):
+        self.assertEqual(program('input/test14.in'), [(0, 0, 0, 0)])
+
+    def test15_program(self):
+        self.assertEqual(program('input/test15.in'), [(-2, 1, 0, 0), (-3, 0, 1, 0), (-4, 0, 0, 1)])
+
+    def test16_program(self):
+        self.assertEqual(program('input/test16.in'), [(1, -0.5, 0, 0), (0, 2.5, -3, 1)])
+
+    def test17_program(self):
+        self.assertEqual(program('input/test17.in'), [(1, -0.5, 0, 0), (0, 2.5, -3, 1)])
