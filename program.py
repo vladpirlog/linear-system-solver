@@ -90,8 +90,7 @@ def program(file):
                     div = -new_matrix[j][i] / \
                         new_matrix[i - ind_nec_princ[0]][i]
                     for k in range(nr_necunoscute):
-                        new_matrix[j][k] = new_matrix[i -
-                                                      ind_nec_princ[0]][k] * div + new_matrix[j][k]
+                        new_matrix[j][k] = new_matrix[i - ind_nec_princ[0]][k] * div + new_matrix[j][k]
 
         # Coeficientul necunoscutelor principale se aduce la valoarea -1; astfel, se pot citi coeficientii
         # necunoscutei de pe linia corespunzatoare din matrice.
@@ -103,15 +102,17 @@ def program(file):
             div = -new_matrix[i - ind_nec_princ[0]][i]
             for k in range(nr_necunoscute):
                 if div != 0:
-                    new_matrix[i - ind_nec_princ[0]][k] = round(
-                        new_matrix[i - ind_nec_princ[0]][k] / div, 4)
+                    new_matrix[i - ind_nec_princ[0]][k] = new_matrix[i - ind_nec_princ[0]][k] / div
 
-        # Se inlocuiesc valorile de -0.0 din matrice cu 0.0.
+        # Se inlocuiesc valorile de -0.0 din matrice cu 0.0 si se aduc la forma cu 4 zecimale
 
         for i in range(len(new_matrix)):
             for j in range(nr_necunoscute):
                 if new_matrix[i][j] == 0:
                     new_matrix[i][j] = 0.0
+                else:
+                    new_matrix[i][j] = round(new_matrix[i][j], 4)
+                        
 
         # Se scriu in fisier solutiile de forma x[n] = ... + a[k] * x[k] + a[k + 1] * x[k + 1] + ...
 
@@ -123,8 +124,7 @@ def program(file):
                         res += ' + {} * x[{}]'.format(
                             matrix[i - ind_nec_princ[0]][j], j + 1)
                     elif matrix[i - ind_nec_princ[0]][j] < 0:
-                        res += ' - {} * x[{}]'.format(-matrix[i -
-                                                              ind_nec_princ[0]][j], j + 1)
+                        res += ' - {} * x[{}]'.format(-matrix[i - ind_nec_princ[0]][j], j + 1)
                 if res == '':
                     res = ' 0 '
                 g.write('x[{}] ='.format(i + 1) + res + '\n')
