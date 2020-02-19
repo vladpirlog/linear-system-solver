@@ -66,14 +66,14 @@ def program(file):
 
     # Se creeaza o noua matrice fara liniile ce contin doar zerouri.
 
-    new_matrix = [line for line in matrix if any(line)]
+    gauss_matrix = [line for line in matrix if any(line)]
 
-    if len(new_matrix) == 0:
+    if len(gauss_matrix) == 0:
 
         # Daca lungimea noii matrici este 0, atunci orice solutie reala este acceptata.
 
         return [tuple(['x[{}]'.format(x + 1) for x in range(nr_necunoscute)])]
-    elif len(new_matrix) == nr_necunoscute:
+    elif len(gauss_matrix) == nr_necunoscute:
 
         # Daca lungimea noii matrici este egala cu nr de necunoscute, atunci singura solutie acceptata
         # este solutia nula (sistemul este compatibil determinat).
@@ -85,7 +85,7 @@ def program(file):
         #                 ce compun minorul principal, despre care stim ca are determinantul nenul
         # ind_nec_sec = lista indicilor necunoscutelor secundare (cele ce nu se scriu in functie de celalte necunoscute)
 
-        ind_nec_princ = find_minor(new_matrix)
+        ind_nec_princ = find_minor(gauss_matrix)
 
         ind_nec_sec = [elem for elem in range(
             nr_necunoscute) if elem not in ind_nec_princ]
@@ -96,10 +96,10 @@ def program(file):
         for i in ind_nec_princ:
             current_line = ind_nec_princ.index(i)
             for j in range(current_line):
-                if new_matrix[current_line][i] != 0:
-                    div = new_matrix[j][i] / new_matrix[current_line][i]
+                if gauss_matrix[current_line][i] != 0:
+                    div = gauss_matrix[j][i] / gauss_matrix[current_line][i]
                     for k in range(nr_necunoscute):
-                        new_matrix[j][k] -= new_matrix[current_line][k] * div
+                        gauss_matrix[j][k] -= gauss_matrix[current_line][k] * div
 
         # Coeficientul necunoscutelor principale se aduce la valoarea -1; astfel, se pot citi coeficientii
         # necunoscutei de pe linia corespunzatoare din matrice.
@@ -109,19 +109,19 @@ def program(file):
 
         for i in ind_nec_princ:
             current_line = ind_nec_princ.index(i)
-            div = -new_matrix[current_line][i]
+            div = -gauss_matrix[current_line][i]
             for k in range(nr_necunoscute):
                 if div != 0:
-                    new_matrix[current_line][k] = new_matrix[current_line][k] / div
+                    gauss_matrix[current_line][k] = gauss_matrix[current_line][k] / div
 
         # Se inlocuiesc valorile de -0.0 din matrice cu 0.0 si se aduc la forma cu 4 zecimale
 
-        for i in range(len(new_matrix)):
+        for i in range(len(gauss_matrix)):
             for j in range(nr_necunoscute):
-                if new_matrix[i][j] == 0:
-                    new_matrix[i][j] = 0.0
+                if gauss_matrix[i][j] == 0:
+                    gauss_matrix[i][j] = 0.0
                 else:
-                    new_matrix[i][j] = round(new_matrix[i][j], 4)
+                    gauss_matrix[i][j] = round(gauss_matrix[i][j], 4)
 
         # Se scriu in fisier solutiile de forma x[n] = ... + a[k] * x[k] + a[k + 1] * x[k + 1] + ...
 
@@ -148,12 +148,12 @@ def program(file):
         for i in ind_nec_sec:
             line_to_add = [0.0] * nr_necunoscute
             line_to_add[i] = 1.0
-            new_matrix.insert(i, line_to_add)
+            gauss_matrix.insert(i, line_to_add)
 
         # sol = lista de tupluri ce reprezinta sistemul fundamental de solutii
 
         sol = []
         for i in ind_nec_sec:
-            sol.append(tuple([line[i] for line in new_matrix]))
+            sol.append(tuple([line[i] for line in gauss_matrix]))
 
         return sol

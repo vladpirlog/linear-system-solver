@@ -83,3 +83,6 @@ class Test(unittest.TestCase):
     def test22_program(self):
         self.assertEqual(program('input/test22.in'),
                          [(0, 0, 1, 0), (0, 0, 0, 1)])
+
+    def test23_program(self):
+        self.assertEqual(program('input/test23.in'), [(0, 0, 0, 0, 0)])
