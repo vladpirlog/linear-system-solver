@@ -17,10 +17,27 @@ def print_matrix(m):
     print()
 
 
+# Functia primeste ca argument o matrice adusa la forma Gauss si intoarce indicii 
+# coloanelor ce formeaza minorul principal.
+
+def find_minor(matrix):
+    nr_ec = len(matrix)
+    nr_nec = len(matrix[0])
+    sol = []
+    for i in range(nr_ec):
+        for j in range(nr_nec):
+            if matrix[i][j] != 0 and j not in sol:
+                sol.append(j)
+                break
+    return sol
+
+
 def program(file):
+
     # matrix = matricea coeficientilor
     # nr_ecuatii = numarul de ecuatii
     # nr_necunoscute = numarul de necunoscute
+
     matrix = []
     with open(file, 'r') as f:
         nr_ecuatii, nr_necunoscute = map(int, f.readline().split())
@@ -42,7 +59,7 @@ def program(file):
                 matrix[j] = temp
                 break
         for j in range(i + 1, nr_ecuatii):
-            if matrix[j][i] != 0 and matrix[i][i] != 0:
+            if matrix[i][i] != 0:
                 rap = matrix[j][i] / matrix[i][i]
                 for k in range(nr_necunoscute):
                     matrix[j][k] = matrix[j][k] - (rap * matrix[i][k])
@@ -63,20 +80,12 @@ def program(file):
 
         return [tuple([0] * nr_necunoscute)]
     else:
-        # Necunoscutele principale sunt cele ce vor fi scrise in functie de celelalte necunoscute.
-
-        nr_necunoscute_principale = len(new_matrix)
 
         # ind_nec_princ = lista indicilor necunoscutelor principale; aceasta reprezinta, de asemenea, indicii coloanelor
-        #                 ce compun minorul principal, despre care stim sigur ca are determinantul nenul
+        #                 ce compun minorul principal, despre care stim ca are determinantul nenul
         # ind_nec_sec = lista indicilor necunoscutelor secundare (cele ce nu se scriu in functie de celalte necunoscute)
 
-        ind_nec_princ = []
-        for k in range(nr_necunoscute):
-            if new_matrix[-1][k] != 0:
-                ind_nec_princ = list(
-                    range(k - nr_necunoscute_principale + 1, k + 1))
-                break
+        ind_nec_princ = find_minor(new_matrix)
 
         ind_nec_sec = [elem for elem in range(
             nr_necunoscute) if elem not in ind_nec_princ]
@@ -85,12 +94,12 @@ def program(file):
         # in acest moment, coeficientii necunoscutelor pot avea orice valoare.
 
         for i in ind_nec_princ:
-            for j in range(i - ind_nec_princ[0]):
-                if new_matrix[i - ind_nec_princ[0]][i] != 0:
-                    div = -new_matrix[j][i] / \
-                        new_matrix[i - ind_nec_princ[0]][i]
+            current_line = ind_nec_princ.index(i)
+            for j in range(current_line):
+                if new_matrix[current_line][i] != 0:
+                    div = new_matrix[j][i] / new_matrix[current_line][i]
                     for k in range(nr_necunoscute):
-                        new_matrix[j][k] = new_matrix[i - ind_nec_princ[0]][k] * div + new_matrix[j][k]
+                        new_matrix[j][k] -= new_matrix[current_line][k] * div
 
         # Coeficientul necunoscutelor principale se aduce la valoarea -1; astfel, se pot citi coeficientii
         # necunoscutei de pe linia corespunzatoare din matrice.
@@ -99,10 +108,11 @@ def program(file):
         # rezulta ca x[1] = 2 * x[4] + 3 * x[5].
 
         for i in ind_nec_princ:
-            div = -new_matrix[i - ind_nec_princ[0]][i]
+            current_line = ind_nec_princ.index(i)
+            div = -new_matrix[current_line][i]
             for k in range(nr_necunoscute):
                 if div != 0:
-                    new_matrix[i - ind_nec_princ[0]][k] = new_matrix[i - ind_nec_princ[0]][k] / div
+                    new_matrix[current_line][k] = new_matrix[current_line][k] / div
 
         # Se inlocuiesc valorile de -0.0 din matrice cu 0.0 si se aduc la forma cu 4 zecimale
 
@@ -112,19 +122,20 @@ def program(file):
                     new_matrix[i][j] = 0.0
                 else:
                     new_matrix[i][j] = round(new_matrix[i][j], 4)
-                        
 
         # Se scriu in fisier solutiile de forma x[n] = ... + a[k] * x[k] + a[k + 1] * x[k + 1] + ...
 
         with open(str(file).replace('.in', '.out').replace('input', 'output'), 'w') as g:
             for i in ind_nec_princ:
+                current_line = ind_nec_princ.index(i)
                 res = ''
                 for j in ind_nec_sec:
-                    if matrix[i - ind_nec_princ[0]][j] > 0:
+                    if matrix[current_line][j] > 0:
                         res += ' + {} * x[{}]'.format(
-                            matrix[i - ind_nec_princ[0]][j], j + 1)
-                    elif matrix[i - ind_nec_princ[0]][j] < 0:
-                        res += ' - {} * x[{}]'.format(-matrix[i - ind_nec_princ[0]][j], j + 1)
+                            matrix[current_line][j], j + 1)
+                    elif matrix[current_line][j] < 0:
+                        res += ' - {} * x[{}]'.format(-matrix[current_line]
+                                                      [j], j + 1)
                 if res == '':
                     res = ' 0 '
                 g.write('x[{}] ='.format(i + 1) + res + '\n')

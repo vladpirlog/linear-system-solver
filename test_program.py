@@ -34,7 +34,7 @@ class Test(unittest.TestCase):
 
     def test09_program(self):
         self.assertEqual(program('input/test09.in'),
-                         [(1, -0.5, 0, 0), (0, 1.75, -2.5, 1)])
+                         [(-2, 1, 0, 0), (3.5, 0, -2.5, 1)])
 
     def test10_program(self):
         self.assertEqual(program('input/test10.in'), [(0, 0, 0, 0)])
@@ -57,16 +57,29 @@ class Test(unittest.TestCase):
 
     def test16_program(self):
         self.assertEqual(program('input/test16.in'),
-                         [(1, -0.5, 0, 0), (0, 2.5, -3, 1)])
+                         [(-2, 1, 0, 0), (5, 0, -3, 1)])
 
     def test17_program(self):
         self.assertEqual(program('input/test17.in'),
-                         [(1, -0.5, 0, 0), (0, 2.5, -3, 1)])
+                         [(-2, 1, 0, 0), (8, 0, -4, 1)])
 
     def test18_program(self):
-        self.assertEqual(program('input/test18.in'), [(-0.2222, 0.6667, -1.0, -0.7778, 1.0, 0.0, 0.0, 0.0),
+        self.assertEqual(program('input/test18.in'), [(-0.2222, 0.6667, -1, -0.7778, 1, 0, 0, 0),
                                                       (-0.717, 1.8667, -2.7684, -
-                                                       0.1778, 0.0, 1.0, 0.0, 0.0),
+                                                       0.1778, 0, 1, 0, 0),
                                                       (-0.5684, 3.4, -2.0105, -
-                                                       1.8, 0.0, 0.0, 1.0, 0.0),
-                                                      (-0.4865, 4.7333, -3.8526, -1.3556, 0.0, 0.0, 0.0, 1.0)])
+                                                       1.8, 0, 0, 1, 0),
+                                                      (-0.4865, 4.7333, -3.8526, -1.3556, 0, 0, 0, 1)])
+
+    def test19_program(self):
+        self.assertEqual(program('input/test19.in'), [(-1, 1, 0, 0)])
+
+    def test20_program(self):
+        self.assertEqual(program('input/test20.in'), [(0, 0, -1, 1)])
+
+    def test21_program(self):
+        self.assertEqual(program('input/test21.in'), [(0, -1, 1, 0)])
+
+    def test22_program(self):
+        self.assertEqual(program('input/test22.in'),
+                         [(0, 0, 1, 0), (0, 0, 0, 1)])
