@@ -17,7 +17,7 @@ def print_matrix(m):
     print()
 
 
-# Functia primeste ca argument o matrice adusa la forma Gauss si intoarce indicii 
+# Functia primeste ca argument o matrice adusa la forma Gauss si intoarce indicii
 # coloanelor ce formeaza minorul principal.
 
 def find_minor(matrix):

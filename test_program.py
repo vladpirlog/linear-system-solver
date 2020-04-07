@@ -86,3 +86,7 @@ class Test(unittest.TestCase):
 
     def test23_program(self):
         self.assertEqual(program('input/test23.in'), [(0, 0, 0, 0, 0)])
+
+
+if __name__ == "__main__":
+    unittest.main()
